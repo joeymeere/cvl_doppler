@@ -1,0 +1,19 @@
+{
+  "name": "cvl_doppler-tests",
+  "version": "1.0.0",
+  "description": "Tests for cvl_doppler",
+  "scripts": {
+    "test": "npx ts-mocha -p ./tsconfig.json ./*.test.ts"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.95.0",
+    "litesvm": "^0.3.0",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^5.3.0",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.0.0"
+  }
+}

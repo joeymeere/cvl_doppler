@@ -1,0 +1,7 @@
+[program]
+name    = "cvl_doppler"
+version = "0.1.0"
+
+[build]
+src_dir   = "src"
+build_dir = "build"
