@@ -1,6 +1,6 @@
-#define CVL_NO_SYSTEM
-#define CVL_NO_TOKEN
-#define CVL_NO_HEAP
+#define NO_SYSTEM
+#define NO_TOKEN
+#define NO_HEAP
 
 #include <caravel.h>
 #include "state.h"
@@ -25,33 +25,33 @@
     0xb7, 0x86, 0x25, 0xab, 0xc0, 0x1d, 0x60, 0x84
 #endif
 
-static const uint8_t ADMIN[CVL_PUBKEY_SIZE] = { DOPPLER_ADMIN_KEY };
+static const uint8_t ADMIN[PUBKEY_SIZE] = { DOPPLER_ADMIN_KEY };
 
 static void process(const uint8_t *_input) {
     uint8_t *input = (uint8_t *)_input;
 
     /* signer + no-dup marker */
     if (*(uint16_t *)(input + ADMIN_HEADER) != NO_DUP_SIGNER)
-        CVL_EXIT(1);
+        EXIT(1);
 
     if (*(uint64_t *)(input + ADMIN_KEY)        != *(uint64_t *)(ADMIN))
-        CVL_EXIT(1);
+        EXIT(1);
     if (*(uint64_t *)(input + ADMIN_KEY + 0x08) != *(uint64_t *)(ADMIN + 8))
-        CVL_EXIT(1);
+        EXIT(1);
     if (*(uint64_t *)(input + ADMIN_KEY + 0x10) != *(uint64_t *)(ADMIN + 16))
-        CVL_EXIT(1);
+        EXIT(1);
     if (*(uint64_t *)(input + ADMIN_KEY + 0x18) != *(uint64_t *)(ADMIN + 24))
-        CVL_EXIT(1);
+        EXIT(1);
 
     uint64_t current_seq = *(uint64_t *)(input + ORACLE_SEQUENCE);
     uint64_t new_seq     = *(uint64_t *)(input + IX_SEQUENCE);
 
     /* seq must be strictly increasing!!!!!! */
     if (new_seq <= current_seq)
-        CVL_EXIT(2);
+        EXIT(2);
 
     *(uint64_t *)(input + ORACLE_SEQUENCE)  = new_seq;
     *(PriceFeed *)(input + ORACLE_PAYLOAD)  = *(PriceFeed *)(input + IX_PAYLOAD);
 }
 
-CVL_RAW_ENTRYPOINT(process)
+RAW_ENTRYPOINT(process)
